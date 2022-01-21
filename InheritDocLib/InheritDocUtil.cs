@@ -520,8 +520,15 @@ namespace InheritDocLib {
             else {
                 int leftParenPos = text.IndexOf('(');
                 int lastDot = text.LastIndexOf('.', leftParenPos == -1 ? text.Length - 1 : leftParenPos);
-                typeName = text.Substring(colonPos + 1, lastDot - colonPos - 1);
-                memberName = text.Substring(lastDot + 1);
+                bool hasType = lastDot != -1;
+                if (hasType) {
+                    typeName = text.Substring(colonPos + 1, lastDot - colonPos - 1);
+                    memberName = text.Substring(lastDot + 1);
+                }
+                else {
+                    typeName = string.Empty;
+                    memberName = text.Substring(colonPos + 1);
+                }
             }
             return new MemberElementName(group, typeName, memberName);
         }
